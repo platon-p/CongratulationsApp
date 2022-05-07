@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">Открытки</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="home_heading">Создать открытку</string>
+    <string name="home_title">Главная</string>
+    <string name="library_title">Библиотека</string>
+    <string name="library_heading">Мои открытки</string>
+    <string name="male_title">Мужской</string>
+    <string name="female_radio">Женскиий</string>
+    <string name="genderLabel">Пол</string>
+</resources>
