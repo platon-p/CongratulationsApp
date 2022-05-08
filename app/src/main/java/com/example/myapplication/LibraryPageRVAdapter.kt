@@ -11,13 +11,13 @@ class LibraryPageRVAdapter(private val items: List<String>) :
 
 
     class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val textView: TextView = itemView.findViewById(R.id.homeRVLabel)
+        val textView: TextView = itemView.findViewById(R.id.textView2)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val view = LayoutInflater
             .from(parent.context)
-            .inflate(R.layout.home_recyclerview_item, parent, false)
+            .inflate(R.layout.library_recyclerview_item, parent, false)
         return MyViewHolder(view)
     }
 

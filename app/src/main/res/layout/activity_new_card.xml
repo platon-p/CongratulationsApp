@@ -23,22 +23,36 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="20sp"
             android:fontFamily="sans-serif-black"
-            android:text="@string/home_heading"
+            android:text="@string/new_card"
             android:textSize="25sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <EditText
+            android:id="@+id/editTextCardName"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginBottom="10sp"
+            android:autofillHints=""
+            android:ems="10"
+            android:hint="@string/placeholder_card"
+            android:inputType="textPersonName"
+            android:singleLine="false"
+            android:textColorHint="#757575"
+            android:textSize="20sp" />
         <TextView
             android:id="@+id/textView4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:labelFor="@id/genderRadioGroup"
-            android:text="@string/genderLabel" />
+            android:text="@string/genderLabel"
+            android:textSize="20sp" />
 
         <RadioGroup
             android:id="@+id/genderRadioGroup"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="20sp"
             android:orientation="horizontal">
 
             <RadioButton
@@ -47,13 +61,53 @@
                 android:layout_height="match_parent"
                 android:layout_marginEnd="20sp"
                 android:checked="true"
-                android:text="@string/male_title" />
+                android:text="@string/male_title"
+                android:textSize="20sp" />
 
             <RadioButton
                 android:id="@+id/femaleRadioButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/female_radio" />
+                android:text="@string/female_radio"
+                android:textSize="20sp" />
         </RadioGroup>
+
+<!--        <com.google.android.material.textfield.TextInputLayout-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content">-->
+            <EditText
+                android:id="@+id/editTextPersonName"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginBottom="10sp"
+                android:autofillHints=""
+                android:ems="10"
+                android:hint="@string/plaheholder_name"
+                android:inputType="textPersonName"
+                android:singleLine="false"
+                android:textColorHint="#757575"
+                android:textSize="20sp" />
+<!--        </com.google.android.material.textfield.TextInputLayout>-->
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="visible" />
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:contentDescription="#TODO"
+            tools:srcCompat="@drawable/ic_launcher_background" />
+
+        <Button
+            android:id="@+id/createButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:text="@string/create_button_text" />
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

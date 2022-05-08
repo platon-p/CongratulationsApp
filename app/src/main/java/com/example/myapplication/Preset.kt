@@ -1,5 +1,7 @@
 package com.example.myapplication
 
+import java.io.Serializable
+
 class Presett(
     var name: String,
     var paperSize: String,
@@ -10,4 +12,5 @@ class Presett(
     var greetingY: Float,
     var image: String,
 )
-class Preset(var name: String)
+
+class Preset(var name: String) : Serializable

@@ -1,12 +1,17 @@
 <resources>
     <string name="app_name">Открытки</string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="home_heading">Создать открытку</string>
     <string name="home_title">Главная</string>
     <string name="library_title">Библиотека</string>
     <string name="library_heading">Мои открытки</string>
     <string name="male_title">Мужской</string>
-    <string name="female_radio">Женскиий</string>
+    <string name="female_radio">Женский</string>
     <string name="genderLabel">Пол</string>
+    <string name="new_card">Новая открытка</string>
+    <string name="placeholder_card">Название открытки</string>
+    <string name="plaheholder_name">Имя и фамилия</string>
+    <string name="create_button_text">Создать</string>
+    <string name="base_api_uri">https://127.0.0.1:8000/</string>
+    <string name="pdf_path">api/pdf</string>
 </resources>

@@ -1,11 +1,13 @@
 package com.example.myapplication
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
+import java.io.Serializable
 
 /**
  * A simple [Fragment] subclass.
@@ -17,11 +19,13 @@ class HomePage : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        recyclerView = view.findViewById(R.id.homeRecyclerView)
-        recyclerView.adapter = HomePageRVAdapter(fillList())
-
-        // TODO("Add on item click listener for change activity to NewCardActivity and send current item")
+        val adapter = HomePageRVAdapter(fillList()) {
+            val intent = Intent(activity, NewCardActivity::class.java)
+            intent.putExtra("Preset", it)
+            activity?.startActivity(intent)
+        }
+        recyclerView = view.findViewById(R.id.libraryRecyclerView)
+        recyclerView.adapter = adapter
     }
 
     private fun fillList(): List<Preset> {
@@ -30,6 +34,15 @@ class HomePage : Fragment() {
             Preset("9 мая"),
             Preset("23 февраля"),
             Preset("8 марта"),
+            Preset("Новый год"),
+            Preset("Новый год"),
+            Preset("Новый год"),
+            Preset("Новый год"),
+            Preset("Новый год"),
+            Preset("Новый год"),
+            Preset("Новый год"),
+            Preset("Новый год"),
+            Preset("Новый год"),
             Preset("Новый год"),
             Preset("День рождения"),
         )

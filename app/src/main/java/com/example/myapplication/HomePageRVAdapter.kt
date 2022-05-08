@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
-class HomePageRVAdapter(private val items: List<Preset>) :
+class HomePageRVAdapter(private val items: List<Preset>, var listener: ((Preset) -> Unit)? = null) :
     RecyclerView.Adapter<HomePageRVAdapter.MyViewHolder>() {
 
     inner class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -22,6 +22,9 @@ class HomePageRVAdapter(private val items: List<Preset>) :
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         holder.textView.text = items[position].name
+        holder.itemView.setOnClickListener {
+            listener?.invoke(items[position])
+        }
     }
 
     override fun getItemCount(): Int = items.size
