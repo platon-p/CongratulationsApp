@@ -37,12 +37,6 @@ class HomePage : Fragment() {
     private lateinit var swipeRefreshLayout: SwipeRefreshLayout
 
     private val volleyErrorHandler: Response.ErrorListener = Response.ErrorListener {
-        Log.println(
-            Log.INFO,
-            "aaa!",
-            resources.getString(R.string.base_api_url) + "/" + resources.getString(R.string.api_presets)
-        )
-
         if (it is ClientError) {
             Toast.makeText(
                 activity,
@@ -57,6 +51,7 @@ class HomePage : Fragment() {
             ).show()
         }
         Log.e("Home Page Volley", it.toString())
+        swipeRefreshLayout.isRefreshing = false
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -69,7 +64,6 @@ class HomePage : Fragment() {
 
         swipeRefreshLayout.setOnRefreshListener {
             fillList()
-            swipeRefreshLayout.isRefreshing = false
         }
         fillList()
     }
@@ -87,6 +81,7 @@ class HomePage : Fragment() {
                     adapter.notifyDataSetChanged()
                     val pr = view?.findViewById<ProgressBar>(R.id.homeProgressBar)
                     pr?.visibility = View.GONE
+                    swipeRefreshLayout.isRefreshing = false
                 },
                 volleyErrorHandler
             )

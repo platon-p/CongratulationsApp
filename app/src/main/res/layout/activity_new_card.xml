@@ -72,22 +72,18 @@
                 android:textSize="20sp" />
         </RadioGroup>
 
-<!--        <com.google.android.material.textfield.TextInputLayout-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content">-->
-            <EditText
-                android:id="@+id/editTextPersonName"
-                android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:layout_marginBottom="10sp"
-                android:autofillHints=""
-                android:ems="10"
-                android:hint="@string/plaheholder_name"
-                android:inputType="textPersonName"
-                android:singleLine="false"
-                android:textColorHint="#757575"
-                android:textSize="20sp" />
-<!--        </com.google.android.material.textfield.TextInputLayout>-->
+        <EditText
+            android:id="@+id/editTextPersonName"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginBottom="10sp"
+            android:autofillHints=""
+            android:ems="10"
+            android:hint="@string/plaheholder_name"
+            android:inputType="textPersonName"
+            android:singleLine="false"
+            android:textColorHint="#757575"
+            android:textSize="20sp" />
 
         <ProgressBar
             android:id="@+id/newCardProgressBar"

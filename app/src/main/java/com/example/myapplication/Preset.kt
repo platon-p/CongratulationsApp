@@ -4,6 +4,7 @@ import com.google.gson.annotations.SerializedName
 import java.io.Serializable
 
 class Preset(
+    @SerializedName("ID") var id: UInt,
     @SerializedName("Name") var name: String,
     @SerializedName("PaperSize") var paperSize: String,
     @SerializedName("Text") var text: String,

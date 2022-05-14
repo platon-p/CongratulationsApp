@@ -1,11 +1,11 @@
 package com.example.myapplication
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
 /**
@@ -16,20 +16,30 @@ import androidx.recyclerview.widget.RecyclerView
 class LibraryPage : Fragment() {
     lateinit var recyclerView: RecyclerView
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        val adapter = LibraryPageRVAdapter(fillList())
+        val adapter = LibraryPageRVAdapter(fillList()) {
+            val intent = Intent(activity, ShowCardActivity::class.java)
+            intent.putExtra("Card", it)
+            startActivity(intent)
+        }
         recyclerView = view.findViewById(R.id.libraryRecyclerView)
         recyclerView.adapter = adapter
-
-
         super.onViewCreated(view, savedInstanceState)
     }
 
-    private fun fillList(): List<String> {
-        // TODO("Return list of saved cards")
+    private fun fillList(): List<Card> {
+        // TODO("Return list of SAVED cards")
         return listOf(
-            "9 мая", "1 сентября",
-            "9 мая", "1 сентября",
-            "9 мая", "1 сентября",
+            Card(
+                Preset(
+                    1u,
+                    "Благодарственное письмо",
+                    "A4",
+                    "Ea tempor in pariatur ea enim nulla eiusmod. Nulla fugiat consequat occaecat est id consectetur Lorem voluptate ut amet sunt tempor. Nulla fugiat consequat occaecat est id consectetur Lorem voluptate ut amet sunt tempor",
+                    "[Уважаемый][Уважаемая] {}!",
+                    30f, 60f, 30f, ""
+                ),
+                "Моя открытка", "Мужыской", "Иванов Иван Иванович"
+            )
         )
     }
 

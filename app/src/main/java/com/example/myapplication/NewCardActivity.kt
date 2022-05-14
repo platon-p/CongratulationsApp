@@ -1,19 +1,20 @@
 package com.example.myapplication
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.widget.Button
-import android.widget.EditText
-import android.widget.ImageView
-import android.widget.ProgressBar
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import com.android.volley.toolbox.ImageRequest
 import com.android.volley.toolbox.Volley
+import com.example.myapplication.databinding.ActivityNewCardBinding
 
 class NewCardActivity : AppCompatActivity() {
-    lateinit var submitButton: Button
-    lateinit var editText: EditText
+    lateinit var createButton: Button
+    lateinit var genderRadio: RadioGroup
+    lateinit var usernameInput: EditText
+    lateinit var cardnameInput: EditText
     lateinit var preset: Preset
     lateinit var imageView: ImageView
     lateinit var progressBar: ProgressBar
@@ -26,11 +27,53 @@ class NewCardActivity : AppCompatActivity() {
         supportActionBar?.title = preset.name
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        submitButton = findViewById(R.id.createButton)
-        editText = findViewById(R.id.editTextPersonName)
+        createButton = findViewById(R.id.createButton)
+        createButton.setOnClickListener { onSubmit() }
+
+        usernameInput = findViewById(R.id.editTextPersonName)
+
+//        cardnameInput = ActivityNewCardBinding.inflate(layoutInflater).textInputLayout
+
+        genderRadio = findViewById(R.id.genderRadioGroup)
+
         imageView = findViewById(R.id.imageView)
         progressBar = findViewById(R.id.newCardProgressBar)
         loadImage()
+    }
+
+    private fun onSubmit() {
+        var errors = false
+        Log.println(Log.INFO, "AAAA", preset.id.toString())
+        if (cardnameInput.text?.trim().toString() == "") {
+            errors = true
+            cardnameInput.error = "Поле должно быть заполнено"
+        }
+        if (usernameInput.text?.trim().toString() == "") {
+            errors = true
+            usernameInput.error = "Поле должно быть заполнено"
+        }
+        if (errors) {
+            Toast.makeText(this, "Не все поля заполнены", Toast.LENGTH_SHORT).show()
+            return
+        }
+        // save card in ROOM
+        finish()
+        val intentt = Intent(this, ShowCardActivity::class.java)
+        intentt.putExtra(
+            "Card",
+            Card(
+                preset,
+                cardnameInput.text.toString(),
+                findViewById<RadioButton>(genderRadio.checkedRadioButtonId).text.toString(),
+                usernameInput.text.toString(),
+            )
+        )
+        startActivity(intentt)
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        finish()
+        return super.onSupportNavigateUp()
     }
 
     private fun loadImage() {
@@ -51,7 +94,5 @@ class NewCardActivity : AppCompatActivity() {
             }
         )
         queue.add(request)
-//        TODO("Get image from api by path in Preset.image")
-//        TODO("Hide preloader")
     }
 }

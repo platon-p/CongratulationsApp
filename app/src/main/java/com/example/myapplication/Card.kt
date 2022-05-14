@@ -1,7 +1,19 @@
 package com.example.myapplication
 
-import java.net.URI
+import com.google.gson.annotations.SerializedName
+import java.io.Serializable
 
-class Card(var preset: Preset, var gender: String, var fio: String) {
-    var url = URI.create((R.string.base_api_url + R.string.api_pdf_path).toString())
+class Card(
+    @SerializedName("preset") val preset: Preset,
+    @SerializedName("name") var name: String,
+    @SerializedName("gender") var gender: String,
+    @SerializedName("fio") var fio: String
+) : Serializable {
+    @SerializedName("imagePath")
+    lateinit var imagePath: String
+
+    @SerializedName("pdfPath")
+    lateinit var pdfPath: String
+
+    // TODO: get image and pdf from api and save locally
 }

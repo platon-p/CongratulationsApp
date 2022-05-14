@@ -18,14 +18,13 @@
 
             <TextView
                 android:id="@+id/textView"
+                style="@style/MyTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="12dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginBottom="16dp"
-                android:fontFamily="sans-serif-black"
-                android:text="@string/home_heading"
-                android:textSize="25sp" />
+                android:text="@string/home_heading" />
 
             <ProgressBar
                 android:id="@+id/homeProgressBar"

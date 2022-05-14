@@ -6,9 +6,12 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
-class LibraryPageRVAdapter(private val items: List<String>) :
+class LibraryPageRVAdapter(
+    items: List<Card> = emptyList(),
+    private var listener: ((Card) -> Unit)? = null
+) :
     RecyclerView.Adapter<LibraryPageRVAdapter.MyViewHolder>() {
-
+    var itemsList: List<Card> = items
 
     class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val textView: TextView = itemView.findViewById(R.id.textView2)
@@ -22,8 +25,11 @@ class LibraryPageRVAdapter(private val items: List<String>) :
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        holder.textView.text = items[position]
+        holder.textView.text = itemsList[position].name
+        holder.itemView.setOnClickListener{
+            listener?.invoke(itemsList[position])
+        }
     }
 
-    override fun getItemCount(): Int = items.size
+    override fun getItemCount(): Int = itemsList.size
 }

@@ -12,10 +12,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MyApplication">
         <activity
+            android:name=".ShowCardActivity"
+            android:exported="false" />
+        <activity
             android:name=".NewCardActivity"
             android:exported="false"
-            android:parentActivityName=".MainActivity"
-            android:launchMode="singleInstancePerTask"
             android:screenOrientation="portrait" />
         <activity
             android:name=".MainActivity"

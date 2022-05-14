@@ -12,7 +12,7 @@
     <string name="placeholder_card">Название открытки</string>
     <string name="plaheholder_name">Имя и фамилия</string>
     <string name="create_button_text">Создать</string>
-    <string name="base_api_url">https://81af-62-217-190-89.eu.ngrok.io</string>
+    <string name="base_api_url">https://1733-62-217-190-89.eu.ngrok.io</string>
     <string name="api_pdf_path">api/pdf</string>
     <string name="api_presets">api/presets</string>
 </resources>

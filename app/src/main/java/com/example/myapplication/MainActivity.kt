@@ -10,6 +10,8 @@ class MainActivity : AppCompatActivity() {
     lateinit var homePage: HomePage
     lateinit var libraryPage: LibraryPage
 
+    val MAX_PACKAGE_NOTIFICATIONS: Int = 10
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -40,5 +42,7 @@ class MainActivity : AppCompatActivity() {
             .replace(R.id.frame_layout, fragment)
             .commit()
     }
+
+
 
 }
