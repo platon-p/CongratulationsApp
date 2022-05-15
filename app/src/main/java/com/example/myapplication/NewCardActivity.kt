@@ -32,7 +32,7 @@ class NewCardActivity : AppCompatActivity() {
 
         usernameInput = findViewById(R.id.editTextPersonName)
 
-//        cardnameInput = ActivityNewCardBinding.inflate(layoutInflater).textInputLayout
+        cardnameInput = findViewById(R.id.editTextCardName)
 
         genderRadio = findViewById(R.id.genderRadioGroup)
 

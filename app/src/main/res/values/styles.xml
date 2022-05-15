@@ -4,6 +4,9 @@
     <style name="MyTitle" parent="android:Widget.TextView">
         <item name="android:fontFamily">sans-serif-medium</item>
         <item name="android:textSize">25sp</item>
+        <item name="android:layout_marginStart">12dp</item>
+        <item name="android:layout_marginTop">16dp</item>
+        <item name="android:layout_marginBottom">16dp</item>
     </style>
 
 </resources>
