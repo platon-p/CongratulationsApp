@@ -1,46 +1,60 @@
 package com.example.myapplication
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ProgressBar
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import com.example.myapplication.database.AppDatabase
+import io.reactivex.android.schedulers.AndroidSchedulers
 
-/**
- * A simple [Fragment] subclass.
- * Use the [LibraryPage.newInstance] factory method to
- * create an instance of this fragment.
- */
 class LibraryPage : Fragment() {
     lateinit var recyclerView: RecyclerView
+    private lateinit var adapter: LibraryPageRVAdapter
+    private lateinit var preloader: ProgressBar
+    private lateinit var swipeRefresh: SwipeRefreshLayout
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        val adapter = LibraryPageRVAdapter(fillList()) {
+        preloader = view.findViewById(R.id.libraryPreloader)
+        swipeRefresh = view.findViewById(R.id.librarySwipeRefresh)
+        swipeRefresh.setOnRefreshListener {
+            loadCards()
+        }
+
+        adapter = LibraryPageRVAdapter {
             val intent = Intent(activity, ShowCardActivity::class.java)
-            intent.putExtra("Card", it)
+            intent.putExtra("CardId", it.id) // TODO
             startActivity(intent)
         }
         recyclerView = view.findViewById(R.id.libraryRecyclerView)
         recyclerView.adapter = adapter
+        loadCards()
         super.onViewCreated(view, savedInstanceState)
     }
 
-    private fun fillList(): List<Card> {
-        // TODO("Return list of SAVED cards")
-        return listOf(
-            Card(
-                Preset(
-                    1u,
-                    "Благодарственное письмо",
-                    "A4",
-                    "Ea tempor in pariatur ea enim nulla eiusmod. Nulla fugiat consequat occaecat est id consectetur Lorem voluptate ut amet sunt tempor. Nulla fugiat consequat occaecat est id consectetur Lorem voluptate ut amet sunt tempor",
-                    "[Уважаемый][Уважаемая] {}!",
-                    30f, 60f, 30f, ""
-                ),
-                "Моя открытка", "Мужыской", "Иванов Иван Иванович"
-            )
-        )
+    @SuppressLint("CheckResult", "NotifyDataSetChanged")
+    fun loadCards() {
+        AppDatabase
+            .getDatabase(requireContext())
+            .cardDao()
+            .getAll()
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe({
+                adapter.itemsList = it
+                adapter.notifyDataSetChanged()
+                preloader.visibility = View.GONE
+                swipeRefresh.isRefreshing = false
+
+            }, {
+                Toast.makeText(requireContext(), it.toString(), Toast.LENGTH_LONG).show()
+                swipeRefresh.isRefreshing = false
+            })
     }
 
     override fun onCreateView(

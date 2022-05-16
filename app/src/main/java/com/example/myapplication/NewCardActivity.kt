@@ -8,7 +8,6 @@ import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import com.android.volley.toolbox.ImageRequest
 import com.android.volley.toolbox.Volley
-import com.example.myapplication.databinding.ActivityNewCardBinding
 
 class NewCardActivity : AppCompatActivity() {
     lateinit var createButton: Button
@@ -56,19 +55,34 @@ class NewCardActivity : AppCompatActivity() {
             Toast.makeText(this, "Не все поля заполнены", Toast.LENGTH_SHORT).show()
             return
         }
-        // save card in ROOM
-        finish()
+        // TODO: save card in ROOM
         val intentt = Intent(this, ShowCardActivity::class.java)
         intentt.putExtra(
-            "Card",
-            Card(
-                preset,
-                cardnameInput.text.toString(),
-                findViewById<RadioButton>(genderRadio.checkedRadioButtonId).text.toString(),
-                usernameInput.text.toString(),
-            )
+            "CardId",
+            1 // TODO
         )
+        finish()
         startActivity(intentt)
+    }
+
+    fun insertCard() {
+        // TODO: Get data from form & add to db
+        // TODO: save pdf
+//        AppDatabase
+//            .getDatabase(requireContext())
+//            .cardDao()
+//            .insert(
+//                Card(
+//                    1, 1,
+//                    "Моя открытка", "Мужской", "Иванов Иван Иванович"
+//                )
+//            )
+//            .subscribeOn(AndroidSchedulers.mainThread())
+//            .subscribe(
+//                { Toast.makeText(context, "SUCCESS!", Toast.LENGTH_SHORT).show() },
+//                {
+//                    Toast.makeText(requireContext(), it.toString(), Toast.LENGTH_LONG).show()
+//                })
     }
 
     override fun onSupportNavigateUp(): Boolean {

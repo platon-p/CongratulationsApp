@@ -1,18 +1,44 @@
 package com.example.myapplication
 
-import androidx.appcompat.app.AppCompatActivity
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
+import com.example.myapplication.database.AppDatabase
+import io.reactivex.android.schedulers.AndroidSchedulers
 
 class ShowCardActivity : AppCompatActivity() {
     lateinit var titleTextView: TextView
-    lateinit var card: Card
+    private var cardId: Long = 0
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_show_card)
 
         titleTextView = findViewById(R.id.showCardTitle)
-        card = intent.getSerializableExtra("Card") as Card
-        titleTextView.text = card.name
+        cardId = intent.getIntExtra("CardId", 0).toLong()
+        loadTitle()
+
+        // TODO: Add card form (fragment or layout)
+    }
+
+    fun delete() {
+        // TODO: Delete card by id
+    }
+
+    fun save() {
+        // TODO: validate fields & save
+        // TODO: show toast if success
+    }
+
+    @SuppressLint("CheckResult")
+    private fun loadTitle() {
+        AppDatabase.getDatabase(applicationContext)
+            .cardDao().getById(cardId)
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(
+                {
+                    titleTextView.text = it.name
+                },
+                { finish() })
     }
 }
