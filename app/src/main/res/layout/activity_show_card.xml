@@ -24,6 +24,7 @@
             style="@style/MyTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="0dp"
             tools:text="[Card name]" />
 
         <include layout="@layout/card_form" />

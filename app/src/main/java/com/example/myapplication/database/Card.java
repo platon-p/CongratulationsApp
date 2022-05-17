@@ -3,8 +3,10 @@ package com.example.myapplication.database;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import java.io.Serializable;
+
 @Entity
-public class Card {
+public class Card implements Serializable {
     @PrimaryKey
     public int id;
 
@@ -13,12 +15,11 @@ public class Card {
     public String gender;
     public String fio;
     // TODO: pdfPath
-
-    public Card(int id, int presetId, String name, String gender, String fio) {
-        this.id = id;
-        this.presetId = presetId;
-        this.name = name;
-        this.gender = gender;
-        this.fio = fio;
-    }
+//    public Card(int id, int presetId, String name, String gender, String fio) {
+//        this.id = id;
+//        this.presetId = presetId;
+//        this.name = name;
+//        this.gender = gender;
+//        this.fio = fio;
+//    }
 }

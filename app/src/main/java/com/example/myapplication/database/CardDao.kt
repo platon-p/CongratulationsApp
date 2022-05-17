@@ -10,6 +10,9 @@ interface CardDao {
     @Query("SELECT * FROM card")
     fun getAll(): Flowable<List<Card>>
 
+    @Query("SELECT COUNT(*) FROM card")
+    fun getCount(): Int
+
     @Query("SELECT * FROM card where id = :id")
     fun getById(id: Long): Flowable<Card>
 

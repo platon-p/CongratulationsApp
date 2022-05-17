@@ -29,7 +29,7 @@ class LibraryPage : Fragment() {
 
         adapter = LibraryPageRVAdapter {
             val intent = Intent(activity, ShowCardActivity::class.java)
-            intent.putExtra("CardId", it.id)
+            intent.putExtra("Card", it)
             startActivity(intent)
         }
         recyclerView = view.findViewById(R.id.libraryRecyclerView)
@@ -39,7 +39,7 @@ class LibraryPage : Fragment() {
     }
 
     @SuppressLint("CheckResult", "NotifyDataSetChanged")
-    fun loadCards() {
+    private fun loadCards() {
         AppDatabase
             .getDatabase(requireContext())
             .cardDao()

@@ -1,5 +1,6 @@
 package com.example.myapplication
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -8,6 +9,10 @@ import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import com.android.volley.toolbox.ImageRequest
 import com.android.volley.toolbox.Volley
+import com.example.myapplication.database.AppDatabase
+import com.example.myapplication.database.Card
+import java.util.concurrent.Executor
+import java.util.concurrent.Executors
 
 class NewCardActivity : AppCompatActivity() {
     lateinit var createButton: Button
@@ -42,7 +47,6 @@ class NewCardActivity : AppCompatActivity() {
 
     private fun onSubmit() {
         var errors = false
-        Log.println(Log.INFO, "AAAA", preset.id.toString())
         if (cardnameInput.text?.trim().toString() == "") {
             errors = true
             cardnameInput.error = "Поле должно быть заполнено"
@@ -55,34 +59,38 @@ class NewCardActivity : AppCompatActivity() {
             Toast.makeText(this, "Не все поля заполнены", Toast.LENGTH_SHORT).show()
             return
         }
-        // TODO: save card in ROOM
-        val intentt = Intent(this, ShowCardActivity::class.java)
-        intentt.putExtra(
-            "CardId",
-            1 // TODO
-        )
-        finish()
-        startActivity(intentt)
+        insertCard()
     }
 
+    private fun changeActivity(card: Card) {
+        val intent = Intent(this, ShowCardActivity::class.java)
+        intent.putExtra("Card", card)
+        finish()
+        startActivity(intent)
+    }
+
+    @SuppressLint("CheckResult")
     fun insertCard() {
-        // TODO: Get data from form & add to db
         // TODO: save pdf
-//        AppDatabase
-//            .getDatabase(requireContext())
-//            .cardDao()
-//            .insert(
-//                Card(
-//                    1, 1,
-//                    "Моя открытка", "Мужской", "Иванов Иван Иванович"
-//                )
-//            )
-//            .subscribeOn(AndroidSchedulers.mainThread())
-//            .subscribe(
-//                { Toast.makeText(context, "SUCCESS!", Toast.LENGTH_SHORT).show() },
-//                {
-//                    Toast.makeText(requireContext(), it.toString(), Toast.LENGTH_LONG).show()
-//                })
+        val card = Card()
+        card.name = cardnameInput.text.toString()
+        card.presetId = preset.id
+        card.fio = usernameInput.text.toString()
+        card.gender =
+            findViewById<RadioButton>(genderRadio.checkedRadioButtonId).text.toString()
+
+        val exec: Executor = Executors.newSingleThreadExecutor()
+        exec.execute {
+            card.id = AppDatabase.getDatabase(applicationContext).cardDao().getCount() + 1
+
+            AppDatabase
+                .getDatabase(applicationContext)
+                .cardDao()
+                .insert(card)
+
+            AppDatabase.getDatabase(applicationContext).cardDao().insert(card)
+                .subscribe { changeActivity(card) }
+        }
     }
 
     override fun onSupportNavigateUp(): Boolean {
