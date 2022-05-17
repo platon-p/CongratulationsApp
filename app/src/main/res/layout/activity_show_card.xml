@@ -29,6 +29,7 @@
         <include layout="@layout/card_form" />
 
         <Button
+            android:id="@+id/deleteButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="0dp"
@@ -36,6 +37,7 @@
             android:text="@string/deleteText" />
 
         <Button
+            android:id="@+id/saveButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="0dp"
@@ -43,6 +45,7 @@
             android:text="@string/saveText" />
 
         <Button
+            android:id="@+id/shareButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="0dp"

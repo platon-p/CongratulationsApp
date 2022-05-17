@@ -8,11 +8,11 @@
         android:id="@+id/editTextCardName"
         style="@style/MyInput"
         android:layout_marginBottom="10sp"
+        android:autofillHints=""
         android:hint="@string/placeholder_card"
         android:inputType="textPersonName" />
 
     <TextView
-        android:id="@+id/textView4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:labelFor="@id/genderRadioGroup"
@@ -21,9 +21,9 @@
 
     <RadioGroup
         android:id="@+id/genderRadioGroup"
-        android:layout_marginTop="5sp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="5sp"
         android:orientation="horizontal">
 
         <RadioButton
@@ -42,6 +42,7 @@
             android:text="@string/female_radio"
             android:textSize="20sp" />
     </RadioGroup>
+
     <EditText
         android:id="@+id/editTextPersonName"
         style="@style/MyInput"
