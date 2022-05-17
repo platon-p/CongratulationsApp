@@ -17,4 +17,5 @@
     <string name="api_presets">api/presets</string>
     <string name="deleteText">Удалить</string>
     <string name="saveText">Сохранить</string>
+    <string name="shareText">Поделиться</string>
 </resources>

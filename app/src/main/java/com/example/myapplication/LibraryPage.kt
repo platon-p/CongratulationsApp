@@ -29,7 +29,7 @@ class LibraryPage : Fragment() {
 
         adapter = LibraryPageRVAdapter {
             val intent = Intent(activity, ShowCardActivity::class.java)
-            intent.putExtra("CardId", it.id) // TODO
+            intent.putExtra("CardId", it.id)
             startActivity(intent)
         }
         recyclerView = view.findViewById(R.id.libraryRecyclerView)

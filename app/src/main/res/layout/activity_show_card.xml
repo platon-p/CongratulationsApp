@@ -11,6 +11,9 @@
         android:layout_height="match_parent"
         android:layout_margin="0dp"
         android:orientation="vertical"
+        android:paddingStart="10sp"
+        android:paddingTop="10sp"
+        android:paddingEnd="10sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -23,29 +26,29 @@
             android:layout_height="wrap_content"
             tools:text="[Card name]" />
 
-        <LinearLayout
+        <include layout="@layout/card_form" />
+
+        <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="end"
-            android:orientation="vertical"
-            android:paddingStart="10dp"
-            android:paddingEnd="10dp">
+            android:layout_margin="0dp"
+            android:backgroundTint="@color/deleteButtonColor"
+            android:text="@string/deleteText" />
 
-            <Button
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="0dp"
-                android:backgroundTint="#DA2626"
-                android:text="@string/deleteText" />
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="0dp"
+            android:layout_marginRight="0dp"
+            android:text="@string/saveText" />
 
-            <Button
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="0dp"
-                android:layout_marginRight="0dp"
-                android:text="@string/saveText" />
-
-        </LinearLayout>
-
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="0dp"
+            android:layout_marginTop="25sp"
+            android:layout_marginRight="0dp"
+            android:text="@string/shareText" />
     </LinearLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

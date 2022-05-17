@@ -23,6 +23,7 @@ class ShowCardActivity : AppCompatActivity() {
 
     fun delete() {
         // TODO: Delete card by id
+        // TODO: Delete file
     }
 
     fun save() {
