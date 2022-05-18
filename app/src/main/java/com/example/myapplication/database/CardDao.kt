@@ -20,7 +20,7 @@ interface CardDao {
     fun insert(card: Card): Completable
 
     @Update
-    fun update(card: Card)
+    fun update(card: Card): Completable
 
     @Delete
     fun delete(card: Card): Completable

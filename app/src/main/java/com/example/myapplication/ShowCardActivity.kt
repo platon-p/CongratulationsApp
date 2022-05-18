@@ -2,10 +2,7 @@ package com.example.myapplication
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.widget.Button
-import android.widget.EditText
-import android.widget.RadioGroup
-import android.widget.TextView
+import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.android.volley.Request
@@ -73,7 +70,6 @@ class ShowCardActivity : AppCompatActivity() {
     }
 
     private fun onDelete() {
-        // TODO: Are you sure?
         AlertDialog
             .Builder(this)
             .setTitle("Вы действительно хотите удалить открытку?")
@@ -92,14 +88,35 @@ class ShowCardActivity : AppCompatActivity() {
                 .delete(card)
                 .subscribe {
                     // TODO: Show toast if success
+                    // TODO: Delete file
                     finish()
                 }
         }
-        // TODO: Delete file
     }
 
+    @SuppressLint("CheckResult")
     private fun save() {
-        // TODO: validate fields & save
-        // TODO: show toast if success
+        var error = false
+        if (userNameInput.text.toString() == "") {
+            error = true
+            userNameInput.error = "Поле не заполнено!"
+        }
+        if (cardNameInput.text.toString() == "") {
+            error = true
+            cardNameInput.error = "Поле не заполнено!"
+        }
+        if (error) {
+            Toast.makeText(applicationContext, "Не все поля заполнены", Toast.LENGTH_SHORT).show()
+            return
+        }
+        card.fio = userNameInput.text.toString().trim()
+        card.name = cardNameInput.text.toString().trim()
+        card.gender = findViewById<RadioButton>(genderRadio.checkedRadioButtonId).text.toString()
+        Executors.newSingleThreadExecutor().execute {
+            AppDatabase.getDatabase(applicationContext).cardDao().update(card).subscribe {
+                // TODO: Show toast if success
+                finish()
+            }
+        }
     }
 }
