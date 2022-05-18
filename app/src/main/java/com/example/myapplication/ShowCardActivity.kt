@@ -1,16 +1,20 @@
 package com.example.myapplication
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
 import android.widget.RadioGroup
 import android.widget.TextView
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.android.volley.Request
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
+import com.example.myapplication.database.AppDatabase
 import com.example.myapplication.database.Card
 import com.google.gson.Gson
+import java.util.concurrent.Executors
 
 class ShowCardActivity : AppCompatActivity() {
     private lateinit var titleTextView: TextView
@@ -42,7 +46,7 @@ class ShowCardActivity : AppCompatActivity() {
         genderRadio.check(if (card.gender == resources.getString(R.string.male_title)) R.id.maleRadioButton else R.id.femaleRadioButton)
 
         deleteButton = findViewById(R.id.deleteButton)
-        deleteButton.setOnClickListener { delete() }
+        deleteButton.setOnClickListener { onDelete() }
 
         saveButton = findViewById(R.id.saveButton)
         saveButton.setOnClickListener { save() }
@@ -68,8 +72,29 @@ class ShowCardActivity : AppCompatActivity() {
         // TODO("Share pdf as file or as link")
     }
 
+    private fun onDelete() {
+        // TODO: Are you sure?
+        AlertDialog
+            .Builder(this)
+            .setTitle("Вы действительно хотите удалить открытку?")
+            .setPositiveButton("Удалить") { dialog, id ->
+                delete()
+                dialog.cancel()
+            }.setNegativeButton("Отмена", null).show()
+    }
+
+    @SuppressLint("CheckResult")
     private fun delete() {
-        // TODO: Delete card by id
+        Executors.newSingleThreadExecutor().execute {
+            AppDatabase
+                .getDatabase(applicationContext)
+                .cardDao()
+                .delete(card)
+                .subscribe {
+                    // TODO: Show toast if success
+                    finish()
+                }
+        }
         // TODO: Delete file
     }
 

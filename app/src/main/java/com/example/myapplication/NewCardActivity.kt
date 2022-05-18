@@ -83,11 +83,6 @@ class NewCardActivity : AppCompatActivity() {
         exec.execute {
             card.id = AppDatabase.getDatabase(applicationContext).cardDao().getCount() + 1
 
-            AppDatabase
-                .getDatabase(applicationContext)
-                .cardDao()
-                .insert(card)
-
             AppDatabase.getDatabase(applicationContext).cardDao().insert(card)
                 .subscribe { changeActivity(card) }
         }

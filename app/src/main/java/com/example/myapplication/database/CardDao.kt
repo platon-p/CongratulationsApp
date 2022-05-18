@@ -23,5 +23,5 @@ interface CardDao {
     fun update(card: Card)
 
     @Delete
-    fun delete(card: Card)
+    fun delete(card: Card): Completable
 }
