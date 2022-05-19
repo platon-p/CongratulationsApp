@@ -1,8 +1,8 @@
 package com.example.myapplication
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,13 +11,11 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-import com.android.volley.ClientError
-import com.android.volley.NoConnectionError
-import com.android.volley.Request
-import com.android.volley.Response
-import com.android.volley.toolbox.StringRequest
-import com.android.volley.toolbox.Volley
-import com.google.gson.Gson
+import com.example.myapplication.api.ApiClient
+import com.example.myapplication.api.Preset
+import com.example.myapplication.api.PresetApi
+import retrofit2.Call
+import retrofit2.Callback
 
 /**
  * A simple [Fragment] subclass.
@@ -25,43 +23,26 @@ import com.google.gson.Gson
  * create an instance of this fragment.
  */
 class HomePage : Fragment() {
+    private lateinit var pr: ProgressBar
+    private lateinit var baseUrl: String
+
     private val adapter = HomePageRVAdapter {
         val intent = Intent(activity, NewCardActivity::class.java)
         intent.putExtra("Preset", it)
-        intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT)
-        intent.addFlags(Intent.FLAG_ACTIVITY_PREVIOUS_IS_TOP)
         activity?.startActivity(intent)
     }
 
     private lateinit var recyclerView: RecyclerView
     private lateinit var swipeRefreshLayout: SwipeRefreshLayout
 
-    private val volleyErrorHandler: Response.ErrorListener = Response.ErrorListener {
-        if (it is ClientError) {
-            Toast.makeText(
-                activity,
-                "Ошибка подключения к серверу",
-                Toast.LENGTH_LONG
-            ).show()
-        } else if (it is NoConnectionError) {
-            Toast.makeText(
-                activity,
-                "Не удалось подключиться к интернету",
-                Toast.LENGTH_LONG
-            ).show()
-        }
-        Log.e("Home Page Volley", it.toString())
-        swipeRefreshLayout.isRefreshing = false
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        baseUrl = resources.getString(R.string.base_api_url)
 
+        pr = view.findViewById(R.id.homeProgressBar)
         recyclerView = view.findViewById(R.id.libraryRecyclerView)
         recyclerView.adapter = adapter
-
         swipeRefreshLayout = view.findViewById(R.id.swipeRefreshLayout)
-
         swipeRefreshLayout.setOnRefreshListener {
             fillList()
         }
@@ -69,23 +50,27 @@ class HomePage : Fragment() {
     }
 
     private fun fillList() {
-        val queue = Volley.newRequestQueue(activity)
-        val stringRequest =
-            StringRequest(
-                Request.Method.GET,
-                resources.getString(R.string.base_api_url) + "/" + resources.getString(R.string.api_presets),
-                {
-                    val presetsList =
-                        Gson().fromJson(it.toString(), Array<Preset>::class.java).asList()
-                    adapter.itemsList = presetsList
+        val api = ApiClient.getApiClient().create(PresetApi::class.java)
+        api.getAllPresets()
+            .enqueue(object : Callback<List<Preset>> {
+                @SuppressLint("NotifyDataSetChanged")
+                override fun onResponse(
+                    call: Call<List<Preset>>,
+                    response: retrofit2.Response<List<Preset>>
+                ) {
+                    adapter.itemsList =
+                        response.body() as List<Preset> // as List<com.example.myapplication.Preset>
                     adapter.notifyDataSetChanged()
-                    val pr = view?.findViewById<ProgressBar>(R.id.homeProgressBar)
-                    pr?.visibility = View.GONE
+                    pr.visibility = View.GONE
                     swipeRefreshLayout.isRefreshing = false
-                },
-                volleyErrorHandler
-            )
-        queue.add(stringRequest)
+                }
+
+                override fun onFailure(call: Call<List<Preset>>, t: Throwable) {
+                    Toast.makeText(activity?.applicationContext, "Ooops...", Toast.LENGTH_SHORT)
+                        .show()
+                    swipeRefreshLayout.isRefreshing = false
+                }
+            })
     }
 
     override fun onCreateView(

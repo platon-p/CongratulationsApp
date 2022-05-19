@@ -2,15 +2,21 @@ package com.example.myapplication
 
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
-import com.android.volley.toolbox.ImageRequest
-import com.android.volley.toolbox.Volley
+import com.example.myapplication.api.ApiClient
+import com.example.myapplication.api.Preset
+import com.example.myapplication.api.PresetApi
 import com.example.myapplication.database.AppDatabase
 import com.example.myapplication.database.Card
+import okhttp3.ResponseBody
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import java.util.concurrent.Executor
 import java.util.concurrent.Executors
 
@@ -26,7 +32,6 @@ class NewCardActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_new_card)
-
         preset = intent.getSerializableExtra("Preset") as Preset
         supportActionBar?.title = preset.name
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
@@ -59,6 +64,7 @@ class NewCardActivity : AppCompatActivity() {
             Toast.makeText(this, "Не все поля заполнены", Toast.LENGTH_SHORT).show()
             return
         }
+//        generatePDF()
         insertCard()
     }
 
@@ -69,6 +75,15 @@ class NewCardActivity : AppCompatActivity() {
         startActivity(intent)
     }
 
+//    private fun generatePDF(preset: Preset, name: String, fio: String, gender: String): URI? {
+//        val dirPath = Environment.getExternalStorageDirectory().toString() + "/results"
+//        val folder = File(dirPath)
+//        if (!folder.exists()) folder.mkdirs()
+//
+//        val newFile = File(dirPath, System.currentTimeMillis().toString() + ".pdf")
+//        return null
+//    }
+
     @SuppressLint("CheckResult")
     fun insertCard() {
         // TODO: save pdf
@@ -78,7 +93,6 @@ class NewCardActivity : AppCompatActivity() {
         card.fio = usernameInput.text.toString()
         card.gender =
             findViewById<RadioButton>(genderRadio.checkedRadioButtonId).text.toString()
-
         val exec: Executor = Executors.newSingleThreadExecutor()
         exec.execute {
             card.id = AppDatabase.getDatabase(applicationContext).cardDao().getCount() + 1
@@ -94,22 +108,17 @@ class NewCardActivity : AppCompatActivity() {
     }
 
     private fun loadImage() {
-        val url = resources.getString(R.string.base_api_url) + "/" + preset.image
-        val queue = Volley.newRequestQueue(this)
-
-        val request = ImageRequest(url,
-            { bitmap ->
-                imageView.setImageBitmap(bitmap)
+        val api = ApiClient.getApiClient().create(PresetApi::class.java)
+        api.getBackground(preset.image).enqueue(object : Callback<ResponseBody> {
+            override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+                val bytes = response.body()?.bytes()!!
+                imageView.setImageBitmap(BitmapFactory.decodeByteArray(bytes, 0, bytes.size))
                 progressBar.visibility = View.GONE
-            },
-            imageView.maxWidth,
-            imageView.maxHeight,
-            imageView.scaleType,
-            null,
-            {
-                Log.println(Log.ERROR, "Error NewCardActivity", it.toString())
             }
-        )
-        queue.add(request)
+
+            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                Log.e("Retrofit", t.toString())
+            }
+        })
     }
 }

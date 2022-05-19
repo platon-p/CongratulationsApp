@@ -2,15 +2,18 @@ package com.example.myapplication
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.util.Log
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import com.android.volley.Request
-import com.android.volley.toolbox.StringRequest
-import com.android.volley.toolbox.Volley
+import com.example.myapplication.api.ApiClient
+import com.example.myapplication.api.Preset
+import com.example.myapplication.api.PresetApi
 import com.example.myapplication.database.AppDatabase
 import com.example.myapplication.database.Card
-import com.google.gson.Gson
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import java.util.concurrent.Executors
 
 class ShowCardActivity : AppCompatActivity() {
@@ -52,17 +55,17 @@ class ShowCardActivity : AppCompatActivity() {
         shareButton.setOnClickListener { share() }
     }
 
-    private fun setTitleText(id: Int): Preset? {
-        val queue = Volley.newRequestQueue(applicationContext)
-        queue.add(StringRequest(
-            Request.Method.GET,
-            resources.getString(R.string.base_api_url) + "/" + resources.getString(R.string.api_preset) + "?id=" + id.toString(),
-            {
-                val preset = Gson().fromJson(it.toString(), Preset::class.java)
-                titleTextView.text = preset.name
-            }, {})
-        )
-        return null
+    private fun setTitleText(id: Int) {
+        val api = ApiClient.getApiClient().create(PresetApi::class.java)
+        api.getPreset(id).enqueue(object : Callback<Preset> {
+            override fun onResponse(call: Call<Preset>, response: Response<Preset>) {
+                titleTextView.text = response.body()?.name
+            }
+
+            override fun onFailure(call: Call<Preset>, t: Throwable) {
+                Log.e("Set Title", t.toString())
+            }
+        })
     }
 
     private fun share() {
