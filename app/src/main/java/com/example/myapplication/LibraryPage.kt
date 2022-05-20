@@ -1,6 +1,7 @@
 package com.example.myapplication
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -20,6 +21,17 @@ class LibraryPage : Fragment() {
     private lateinit var preloader: ProgressBar
     private lateinit var swipeRefresh: SwipeRefreshLayout
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode == Activity.RESULT_OK) {
+            Toast.makeText(
+                activity?.applicationContext,
+                data?.getStringExtra("ToastText"),
+                Toast.LENGTH_SHORT
+            ).show()
+        }
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         preloader = view.findViewById(R.id.libraryPreloader)
         swipeRefresh = view.findViewById(R.id.librarySwipeRefresh)
@@ -30,7 +42,7 @@ class LibraryPage : Fragment() {
         adapter = LibraryPageRVAdapter {
             val intent = Intent(activity, ShowCardActivity::class.java)
             intent.putExtra("Card", it)
-            startActivity(intent)
+            startActivityForResult(intent, Activity.RESULT_OK)
         }
         recyclerView = view.findViewById(R.id.libraryRecyclerView)
         recyclerView.adapter = adapter

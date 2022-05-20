@@ -1,6 +1,8 @@
 package com.example.myapplication
 
 import android.annotation.SuppressLint
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.widget.*
@@ -69,14 +71,30 @@ class ShowCardActivity : AppCompatActivity() {
     }
 
     private fun share() {
-        // TODO("Share pdf as file or as link")
+//        val api = ApiClient.getApiClient().create(PresetApi::class.java)
+//        api.getPDF(card.presetId, card.gender, card.fio).enqueue(object : Callback<ResponseBody> {
+//            @SuppressLint("IntentReset")
+//            override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+//                val file = File(filesDir, card.hashCode().toString() + ".pdf")
+//                file.createNewFile()
+//
+//                val fos = FileOutputStream(file)
+//                fos.write(response.body()?.bytes()!!)
+//                fos.close()
+//                TODO("Share pdf as file or as link")
+//            }
+//
+//            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+//                Log.e("Retrofit Error", t.toString())
+//            }
+//        })
     }
 
     private fun onDelete() {
         AlertDialog
             .Builder(this)
             .setTitle("Вы действительно хотите удалить открытку?")
-            .setPositiveButton("Удалить") { dialog, id ->
+            .setPositiveButton("Удалить") { dialog, _ ->
                 delete()
                 dialog.cancel()
             }.setNegativeButton("Отмена", null).show()
@@ -90,8 +108,10 @@ class ShowCardActivity : AppCompatActivity() {
                 .cardDao()
                 .delete(card)
                 .subscribe {
-                    // TODO: Show toast if success
                     // TODO: Delete file
+                    val mIntent = Intent()
+                    mIntent.putExtra("ToastText", "Удалено")
+                    setResult(Activity.RESULT_OK, mIntent)
                     finish()
                 }
         }
@@ -117,7 +137,9 @@ class ShowCardActivity : AppCompatActivity() {
         card.gender = findViewById<RadioButton>(genderRadio.checkedRadioButtonId).text.toString()
         Executors.newSingleThreadExecutor().execute {
             AppDatabase.getDatabase(applicationContext).cardDao().update(card).subscribe {
-                // TODO: Show toast if success
+                val mIntent = Intent()
+                mIntent.putExtra("ToastText", "Сохранено")
+                setResult(Activity.RESULT_OK, intent)
                 finish()
             }
         }

@@ -1,6 +1,5 @@
 package com.example.myapplication.api
 
-import okhttp3.RequestBody
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.http.GET
@@ -22,5 +21,5 @@ interface PresetApi {
         @Query("id") presetId: Int,
         @Query("gender") gender: String,
         @Query("name") fio: String
-    ): Call<RequestBody>
+    ): Call<ResponseBody>
 }

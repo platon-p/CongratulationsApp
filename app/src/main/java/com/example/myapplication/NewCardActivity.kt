@@ -85,7 +85,7 @@ class NewCardActivity : AppCompatActivity() {
 //    }
 
     @SuppressLint("CheckResult")
-    fun insertCard() {
+    private fun insertCard() {
         // TODO: save pdf
         val card = Card()
         card.name = cardnameInput.text.toString()
@@ -95,10 +95,10 @@ class NewCardActivity : AppCompatActivity() {
             findViewById<RadioButton>(genderRadio.checkedRadioButtonId).text.toString()
         val exec: Executor = Executors.newSingleThreadExecutor()
         exec.execute {
-            card.id = AppDatabase.getDatabase(applicationContext).cardDao().getCount() + 1
-
             AppDatabase.getDatabase(applicationContext).cardDao().insert(card)
-                .subscribe { changeActivity(card) }
+                .subscribe({
+                    changeActivity(card)
+                }, { Log.e("Room error", it.toString()) })
         }
     }
 

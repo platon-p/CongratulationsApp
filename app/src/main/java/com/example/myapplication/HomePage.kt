@@ -3,6 +3,7 @@ package com.example.myapplication
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -24,7 +25,6 @@ import retrofit2.Callback
  */
 class HomePage : Fragment() {
     private lateinit var pr: ProgressBar
-    private lateinit var baseUrl: String
 
     private val adapter = HomePageRVAdapter {
         val intent = Intent(activity, NewCardActivity::class.java)
@@ -37,7 +37,6 @@ class HomePage : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        baseUrl = resources.getString(R.string.base_api_url)
 
         pr = view.findViewById(R.id.homeProgressBar)
         recyclerView = view.findViewById(R.id.libraryRecyclerView)
@@ -66,6 +65,7 @@ class HomePage : Fragment() {
                 }
 
                 override fun onFailure(call: Call<List<Preset>>, t: Throwable) {
+                    Log.e("Retrofit", t.toString())
                     Toast.makeText(activity?.applicationContext, "Ooops...", Toast.LENGTH_SHORT)
                         .show()
                     swipeRefreshLayout.isRefreshing = false
