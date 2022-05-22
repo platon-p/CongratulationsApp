@@ -139,7 +139,7 @@ class ShowCardActivity : AppCompatActivity() {
             AppDatabase.getDatabase(applicationContext).cardDao().update(card).subscribe {
                 val mIntent = Intent()
                 mIntent.putExtra("ToastText", "Сохранено")
-                setResult(Activity.RESULT_OK, intent)
+                setResult(Activity.RESULT_OK, mIntent)
                 finish()
             }
         }

@@ -8,5 +8,7 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="stroke_color">#ccc</color>
-    <color name="deleteButtonColor">#DA2626</color>
+    <color name="deleteButtonColor">#D32F2F</color>
+    <color name="myGreen">#388E3C</color>
+    <color name="myGreen2">#2E7D32</color>
 </resources>

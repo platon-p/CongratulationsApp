@@ -28,6 +28,7 @@
 
         <RadioButton
             android:id="@+id/maleRadioButton"
+            style="@style/Widget.Material3.CompoundButton.RadioButton"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_marginEnd="20sp"
@@ -37,8 +38,10 @@
 
         <RadioButton
             android:id="@+id/femaleRadioButton"
+            style="@style/Widget.Material3.CompoundButton.RadioButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:checked="false"
             android:text="@string/female_radio"
             android:textSize="20sp" />
     </RadioGroup>
