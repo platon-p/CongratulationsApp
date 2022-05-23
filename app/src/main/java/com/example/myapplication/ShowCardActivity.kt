@@ -8,14 +8,18 @@ import android.util.Log
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.FileProvider
 import com.example.myapplication.api.ApiClient
 import com.example.myapplication.api.Preset
 import com.example.myapplication.api.PresetApi
 import com.example.myapplication.database.AppDatabase
 import com.example.myapplication.database.Card
+import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.io.File
+import java.io.FileOutputStream
 import java.util.concurrent.Executors
 
 class ShowCardActivity : AppCompatActivity() {
@@ -71,23 +75,32 @@ class ShowCardActivity : AppCompatActivity() {
     }
 
     private fun share() {
-//        val api = ApiClient.getApiClient().create(PresetApi::class.java)
-//        api.getPDF(card.presetId, card.gender, card.fio).enqueue(object : Callback<ResponseBody> {
-//            @SuppressLint("IntentReset")
-//            override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
-//                val file = File(filesDir, card.hashCode().toString() + ".pdf")
-//                file.createNewFile()
-//
-//                val fos = FileOutputStream(file)
-//                fos.write(response.body()?.bytes()!!)
-//                fos.close()
-//                TODO("Share pdf as file or as link")
-//            }
-//
-//            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
-//                Log.e("Retrofit Error", t.toString())
-//            }
-//        })
+        val api = ApiClient.getApiClient().create(PresetApi::class.java)
+        api.getPDF(card.presetId, card.gender, card.fio).enqueue(object : Callback<ResponseBody> {
+            @SuppressLint("IntentReset")
+            override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+                val file = File(filesDir, card.name + ".pdf")
+                file.createNewFile()
+
+                val fos = FileOutputStream(file)
+                fos.write(response.body()?.bytes()!!)
+                fos.close()
+
+                val intent = Intent(Intent.ACTION_SEND)
+                val uri = FileProvider.getUriForFile(
+                    applicationContext,
+                    applicationContext.packageName + ".provider",
+                    file
+                )
+                intent.type = "application/pdf"
+                intent.putExtra(Intent.EXTRA_STREAM, uri)
+                startActivity(Intent.createChooser(intent, "Поделиться открыткой"))
+            }
+
+            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                Log.e("Retrofit Error", t.toString())
+            }
+        })
     }
 
     private fun onDelete() {
