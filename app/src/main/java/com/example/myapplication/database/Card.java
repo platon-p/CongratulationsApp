@@ -14,12 +14,4 @@ public class Card implements Serializable {
     public String name;
     public String gender;
     public String fio;
-    // TODO: pdfPath
-//    public Card(int id, int presetId, String name, String gender, String fio) {
-//        this.id = id;
-//        this.presetId = presetId;
-//        this.name = name;
-//        this.gender = gender;
-//        this.fio = fio;
-//    }
 }

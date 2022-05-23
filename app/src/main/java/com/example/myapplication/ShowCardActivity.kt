@@ -121,7 +121,8 @@ class ShowCardActivity : AppCompatActivity() {
                 .cardDao()
                 .delete(card)
                 .subscribe {
-                    // TODO: Delete file
+                    val f = File(filesDir, card.name + ".pdf")
+                    if (f.exists()) f.delete()
                     val mIntent = Intent()
                     mIntent.putExtra("ToastText", "Удалено")
                     setResult(Activity.RESULT_OK, mIntent)

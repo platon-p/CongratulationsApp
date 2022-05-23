@@ -86,7 +86,6 @@ class NewCardActivity : AppCompatActivity() {
 
     @SuppressLint("CheckResult")
     private fun insertCard() {
-        // TODO: save pdf
         val card = Card()
         card.name = cardnameInput.text.toString()
         card.presetId = preset.id
