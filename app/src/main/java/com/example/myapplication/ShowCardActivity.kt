@@ -5,6 +5,7 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -28,7 +29,7 @@ class ShowCardActivity : AppCompatActivity() {
     private lateinit var userNameInput: EditText
     private lateinit var deleteButton: Button
     private lateinit var saveButton: Button
-    private lateinit var shareButton: Button
+    private lateinit var shareButton: View
     private lateinit var genderRadio: RadioGroup
 
     private lateinit var card: Card

@@ -19,4 +19,5 @@
     <string name="saveText">Сохранить</string>
     <string name="shareText">Поделиться</string>
     <string name="api_preset">api/preset</string>
+    <string name="share_description">Share</string>
 </resources>
