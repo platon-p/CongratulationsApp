@@ -6,7 +6,7 @@ import java.io.Serializable
 
 class Preset(
     @Expose
-    @SerializedName("id") var id: Int,
+    @SerializedName("ID") var id: Int,
 
     @Expose
     @SerializedName("name") var name: String,

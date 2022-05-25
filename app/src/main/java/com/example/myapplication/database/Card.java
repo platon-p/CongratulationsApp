@@ -7,7 +7,7 @@ import java.io.Serializable;
 
 @Entity
 public class Card implements Serializable {
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
     public int id;
 
     public int presetId;

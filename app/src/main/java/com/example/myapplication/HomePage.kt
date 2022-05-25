@@ -57,8 +57,7 @@ class HomePage : Fragment() {
                     call: Call<List<Preset>>,
                     response: retrofit2.Response<List<Preset>>
                 ) {
-                    adapter.itemsList =
-                        response.body() as List<Preset> // as List<com.example.myapplication.Preset>
+                    adapter.itemsList = response.body() as List<Preset>
                     adapter.notifyDataSetChanged()
                     pr.visibility = View.GONE
                     swipeRefreshLayout.isRefreshing = false

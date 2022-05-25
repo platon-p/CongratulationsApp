@@ -64,7 +64,6 @@ class NewCardActivity : AppCompatActivity() {
             Toast.makeText(this, "Не все поля заполнены", Toast.LENGTH_SHORT).show()
             return
         }
-//        generatePDF()
         insertCard()
     }
 
@@ -74,15 +73,6 @@ class NewCardActivity : AppCompatActivity() {
         finish()
         startActivity(intent)
     }
-
-//    private fun generatePDF(preset: Preset, name: String, fio: String, gender: String): URI? {
-//        val dirPath = Environment.getExternalStorageDirectory().toString() + "/results"
-//        val folder = File(dirPath)
-//        if (!folder.exists()) folder.mkdirs()
-//
-//        val newFile = File(dirPath, System.currentTimeMillis().toString() + ".pdf")
-//        return null
-//    }
 
     @SuppressLint("CheckResult")
     private fun insertCard() {
