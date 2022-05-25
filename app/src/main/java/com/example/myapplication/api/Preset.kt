@@ -6,29 +6,29 @@ import java.io.Serializable
 
 class Preset(
     @Expose
-    @SerializedName("ID") var id: Int,
+    @SerializedName("id") var id: Int,
 
     @Expose
-    @SerializedName("Name") var name: String,
+    @SerializedName("name") var name: String,
 
     @Expose
-    @SerializedName("PaperSize") var paperSize: String,
+    @SerializedName("paperSize") var paperSize: String,
 
     @Expose
-    @SerializedName("Text") var text: String,
+    @SerializedName("text") var text: String,
 
     @Expose
-    @SerializedName("Greeting") var greeting: String,
+    @SerializedName("greeting") var greeting: String,
 
     @Expose
-    @SerializedName("TextX") var textX: Float,
+    @SerializedName("textX") var textX: Float,
 
     @Expose
-    @SerializedName("TextY") var textY: Float,
+    @SerializedName("textY") var textY: Float,
 
     @Expose
-    @SerializedName("GreetingY") var greetingY: Float,
+    @SerializedName("greetingY") var greetingY: Float,
 
     @Expose
-    @SerializedName("Image") var image: String,
+    @SerializedName("image") var image: String,
 ) : Serializable
