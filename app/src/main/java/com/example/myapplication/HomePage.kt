@@ -39,7 +39,7 @@ class HomePage : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         pr = view.findViewById(R.id.homeProgressBar)
-        recyclerView = view.findViewById(R.id.libraryRecyclerView)
+        recyclerView = view.findViewById(R.id.homeRecyclerView)
         recyclerView.adapter = adapter
         swipeRefreshLayout = view.findViewById(R.id.swipeRefreshLayout)
         swipeRefreshLayout.setOnRefreshListener {
